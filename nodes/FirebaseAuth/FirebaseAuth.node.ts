@@ -5,8 +5,9 @@ import type {
 	INodeTypeDescription,
 } from 'n8n-workflow';
 import { NodeOperationError } from 'n8n-workflow';
-import admin from 'firebase-admin';
-import { getAuth } from 'firebase-admin/auth';
+
+const admin = require('firebase-admin');
+const { getAuth } = require('firebase-admin/auth');
 
 function createFirebaseAdminApp(params: any) {
 	const privateKey = params.privateKey.replace(/\\n/g, '\n');
