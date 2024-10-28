@@ -1,14 +1,16 @@
 {
-	"name": "n8n-nodes-firebase-auth",
+	"name": "n8n-nodes-firebase-admin-auth-get-uid-from-email",
 	"version": "0.1.0",
-	"description": "",
+	"description": "Firebase Admin Auth get the uid from the email of the user",
 	"keywords": [
 		"n8n-community-node-package"
 	],
 	"license": "MIT",
 	"homepage": "",
 	"author": {
-		"name": "alarm109"
+		"name": "Matas Dziadaravičius",
+		"email": "matas109@gmail.com",
+		"url": "https://github.com/alarm109"
 	},
 	"repository": {
 		"type": "git",

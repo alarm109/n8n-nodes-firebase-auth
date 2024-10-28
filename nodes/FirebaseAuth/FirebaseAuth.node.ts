@@ -4,7 +4,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
-import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
+import { NodeOperationError } from 'n8n-workflow';
 import admin from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
 
@@ -38,8 +38,8 @@ export class FirebaseAuth implements INodeType {
 		defaults: {
 			name: 'Firebase Auth',
 		},
-		inputs: [NodeConnectionType.Main],
-		outputs: [NodeConnectionType.Main],
+		inputs: ['main'],
+		outputs: ['main'],
 		credentials: [
 			{
 				name: 'firebaseAuthCredentialsApi',
@@ -50,9 +50,9 @@ export class FirebaseAuth implements INodeType {
 			// Node properties which the user gets displayed and
 			// can change on the node.
 			{
+				displayName: 'Email',
 				default: '',
 				description: 'The email of the user to get the uid',
-				displayName: 'Email',
 				name: 'email',
 				placeholder: 'john.doe@example.com',
 				required: true,
