@@ -5,29 +5,58 @@ import type {
 	INodeTypeDescription,
 } from 'n8n-workflow';
 import { NodeConnectionType, NodeOperationError } from 'n8n-workflow';
+import admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 
-export class ExampleNode implements INodeType {
+function createFirebaseAdminApp(params: any) {
+	const privateKey = params.privateKey.replace(/\\n/g, '\n');
+
+	if (admin.apps.length > 0) {
+		return admin.app();
+	}
+
+	const cert = admin.credential.cert({
+		projectId: params.projectId,
+		clientEmail: params.clientEmail,
+		privateKey: privateKey,
+	});
+
+	return admin.initializeApp({
+		credential: cert,
+		projectId: params.projectId,
+	});
+}
+
+export class FirebaseAuth implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
-		name: 'exampleNode',
+		displayName: 'Firebase Auth',
+		name: 'firebaseAuth',
+		icon: 'file:firebase.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Basic Example Node',
+		description: 'Interact with Firebase Auth',
 		defaults: {
-			name: 'Example Node',
+			name: 'Firebase Auth',
 		},
 		inputs: [NodeConnectionType.Main],
 		outputs: [NodeConnectionType.Main],
+		credentials: [
+			{
+				name: 'firebaseAuthCredentialsApi',
+				required: true,
+			},
+		],
 		properties: [
 			// Node properties which the user gets displayed and
 			// can change on the node.
 			{
-				displayName: 'My String',
-				name: 'myString',
-				type: 'string',
 				default: '',
-				placeholder: 'Placeholder value',
-				description: 'The description text',
+				description: 'The email of the user to get the uid',
+				displayName: 'Email',
+				name: 'email',
+				placeholder: 'john.doe@example.com',
+				required: true,
+				type: 'string',
 			},
 		],
 	};
@@ -37,20 +66,28 @@ export class ExampleNode implements INodeType {
 	// with whatever the user has entered.
 	// You can make async calls and use `await`.
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const app = createFirebaseAdminApp({
+			privateKey: String((await this.getCredentials('firebaseAuthCredentialsApi')).privateKey),
+			projectId: String((await this.getCredentials('firebaseAuthCredentialsApi')).projectId),
+			clientEmail: String((await this.getCredentials('firebaseAuthCredentialsApi')).clientEmail),
+		});
+
+		const auth = getAuth(app);
+
 		const items = this.getInputData();
 
 		let item: INodeExecutionData;
-		let myString: string;
+		let email: string;
 
 		// Iterates over all input items and add the key "myString" with the
 		// value the parameter "myString" resolves to.
 		// (This could be a different value for each item in case it contains an expression)
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				myString = this.getNodeParameter('myString', itemIndex, '') as string;
+				email = this.getNodeParameter('email', itemIndex, '') as string;
 				item = items[itemIndex];
 
-				item.json.myString = myString;
+				item.json.uid = (await auth.getUserByEmail(email)).uid;
 			} catch (error) {
 				// This node should never fail but we want to showcase how
 				// to handle errors.
