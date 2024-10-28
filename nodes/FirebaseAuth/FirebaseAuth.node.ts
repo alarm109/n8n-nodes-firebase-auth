@@ -43,13 +43,11 @@ export class FirebaseAuth implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'firebaseAuthCredentialsApi',
+				name: 'firebaseAuthApi',
 				required: true,
 			},
 		],
 		properties: [
-			// Node properties which the user gets displayed and
-			// can change on the node.
 			{
 				displayName: 'Email',
 				default: '',
@@ -68,9 +66,9 @@ export class FirebaseAuth implements INodeType {
 	// You can make async calls and use `await`.
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const app = createFirebaseAdminApp({
-			privateKey: String((await this.getCredentials('firebaseAuthCredentialsApi')).privateKey),
-			projectId: String((await this.getCredentials('firebaseAuthCredentialsApi')).projectId),
-			clientEmail: String((await this.getCredentials('firebaseAuthCredentialsApi')).clientEmail),
+			privateKey: String((await this.getCredentials('firebaseAuthApi')).privateKey),
+			projectId: String((await this.getCredentials('firebaseAuthApi')).projectId),
+			clientEmail: String((await this.getCredentials('firebaseAuthApi')).clientEmail),
 		});
 
 		const auth = getAuth(app);

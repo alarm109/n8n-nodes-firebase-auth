@@ -37,7 +37,7 @@
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"credentials": [
-			"dist/credentials/FirebaseAuthCredentialsApi.credentials.js"
+			"dist/credentials/FirebaseAuthApi.credentials.js"
 		],
 		"nodes": [
 			"dist/nodes/FirebaseAuth/FirebaseAuth.node.js"

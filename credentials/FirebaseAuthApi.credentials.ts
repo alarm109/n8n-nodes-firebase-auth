@@ -1,12 +1,9 @@
 import { ICredentialType, INodeProperties } from 'n8n-workflow';
 
-export class FirebaseAuthCredentialsApi implements ICredentialType {
-	name = 'firebaseAuthCredentialsApi';
-	displayName = 'Firebase Admin Credentials API';
+export class FirebaseAuthApi implements ICredentialType {
+	name = 'firebaseAuthApi';
+	displayName = 'Firebase Auth API';
 	properties: INodeProperties[] = [
-		// The credentials to get from user and save encrypted.
-		// Properties can be defined exactly in the same way
-		// as node properties.
 		{
 			displayName: 'Project ID',
 			name: 'projectId',
