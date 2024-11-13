@@ -1,6 +1,6 @@
 {
 	"name": "n8n-nodes-firebase-admin-auth-get-uid-from-email",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Firebase Admin Auth get the uid from the email of the user",
 	"keywords": [
 		"n8n-community-node-package"
