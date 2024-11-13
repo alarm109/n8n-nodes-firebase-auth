@@ -18,6 +18,12 @@ Firebase Admin Auth get the uid from the email of the user.
     3. Add `n8n-nodes-firebase-admin-auth-get-uid-from-email`.
 1. Now you should see the node in the nodes list named `Firebase Auth`.
 
+## Development
+
+1. Run `pn build && pn link --global`
+2. Go to `~/.n8n/custom`
+3. Run `rm -rf node_modules && pnpm link n8n-nodes-firebase-auth --global && n8n start`
+
 ## License
 
 [MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
